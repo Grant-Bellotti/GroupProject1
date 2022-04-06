@@ -1,11 +1,7 @@
-let Data = function(id,name,type,rating,image) {
-    this.id = id;
-    this.name = name;
-    this.type = type;
+let Data = function(username,profilepic,rating) {
+    this.username = username;
+    this.profilepic = profilepic;
     this.rating = rating;
-    this.image = image;
-    this.balls = image;
-    this.nutttsss = balls;
 }
 
 module.exports = Data;

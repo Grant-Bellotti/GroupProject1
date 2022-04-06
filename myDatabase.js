@@ -14,21 +14,21 @@ myDatabase.prototype.displayData = function() {
 
 myDatabase.prototype.postData = function(_data) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && this.data[i].id == _data.id) {
+    if (this.data[i] && this.data[i].username == _data.username) {
       return false;
     }
   }
   this.data[dataIndex++] =
-  new Data(_data.id,_data.name,_data.type,_data.rating,_data.image);
+  new Data(_data.username,_data.profilepic,_data.rating);
   return true;
 }
 
-myDatabase.prototype.getData = function(id) {
+myDatabase.prototype.getData = function(username) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && id == this.data[i].id)
+    if (this.data[i] && username == this.data[i].username)
     {
-      return(new Data(this.data[i].id,this.data[i].name,this.data[i].type,
-                      this.data[i].rating,this.data[i].image));
+      return(new Data(this.data[i].username,this.data[i].profilepic,
+                      this.data[i].rating));
     }
   }
   return null;
@@ -36,9 +36,9 @@ myDatabase.prototype.getData = function(id) {
 
 myDatabase.prototype.putData = function(_data) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && this.data[i].id == _data.id) {
+    if (this.data[i] && this.data[i].username == _data.username) {
       this.data[i] =
-      new Data(_data.id,_data.name,_data.type,_data.rating,_data.image);
+      new Data(_data.username,_data.profilepic,_data.rating);
       return true;
     }
   }
@@ -47,7 +47,7 @@ myDatabase.prototype.putData = function(_data) {
 
 myDatabase.prototype.deleteData = function(id) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && id == this.data[i].id) {
+    if (this.data[i] && username == this.data[i].username) {
         let tempPtr = this.data[i];
         this.data[i] = undefined;
         return tempPtr;
