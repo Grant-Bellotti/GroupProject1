@@ -5,6 +5,7 @@ let Data = function(id,name,type,rating,image) {
     this.rating = rating;
     this.image = image;
     this.balls = image;
+    this.nutttsss = balls;
 }
 
 module.exports = Data;
