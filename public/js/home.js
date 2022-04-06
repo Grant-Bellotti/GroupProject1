@@ -1,93 +1,24 @@
-function createClicked(){
-  $.ajax({
-    url: "/create",
-    type: "POST",
-    data: {identifier:$("#identifier").val(),
-            name:$("#name").val(),
-            type:$("input:radio[name='type']:checked").val(),
-            rating:$("#range").val(),
-            image:$("#fileStuff").val()
-          },
-    success: function(data){
-        if (data.error)
-          alert("bad");
-        else {
-          alert("good");
-          image1.src = data.image
-        }
-      } ,
-    dataType: "json"
-  });
-  return false;
-}
-function readClicked(){
-  $.ajax({
-    url: "/read",
-    type: "GET",
-    data: {identifier:$("#identifier").val()},
-    success: function(data){
-        if (data.error)
-          alert("bad");
-        else {
-          $("#name").val(data.name);
-          $("#"+data.type).prop("checked",true);
-          $("#range").val(data.rating);
-          image1.src = data.image;
-        }
-      } ,
-    dataType: "json"
-  });
-  return false;
-}
-function updateClicked(){
-  $.ajax({
-    url: "/update",
-    type: "PUT",
-    data: {identifier:$("#identifier").val(),
-    name:$("#name").val(),
-    type:$("input:radio[name='type']:checked").val(),
-    rating:$("#range").val(),
-    image:$("#fileStuff").val()
-    },
-    success: function(data){
-        if (data.error)
-          alert("bad");
-        else {
-          alert("good");
-          image1.src = data.image
-        }
-      } ,
-    dataType: "json"
-  });
-  return false;
-}
-function deleteClicked(){
-  let trimIdentifier = $("#identifier").val().trim();
+let ident;
 
-  if (trimIdentifier == "") {
-    alert("bad");
-    return false;
-  }
+let socket = io();
+//Get message from server.
+socket.on('welcome', function(data) {
+      ident = data.id;
+      console.log(ident);
+      $("#messages").append('<li>' + data.message + " " + data.id + '</li>');
+});
 
-  $.ajax({
-    url: "/delete/" + $("#identifier").val(),
-    type: "DELETE",
-    success: function(data) {
-      if (data.error)
-        alert("bad");
-      else
-        alert("good");
-    } ,
-    dataType: "json"
-  });
-  return false;
+//Get message from server.
+socket.on('update', (data) => {
+      $("#messages").append('<li>' + data.ident + '</li>');
+});
+
+function doit() {
+//Send message to server.
+      socket.emit('update', {'ident': ident});
+      return false;
 }
 
 $(document).ready(function(){
-
-  $("#createButton").click(createClicked);
-  $("#readButton").click(readClicked);
-  $("#updateButton").click(updateClicked);
-  $("#deleteButton").click(deleteClicked);
 
 });
