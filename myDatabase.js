@@ -19,16 +19,16 @@ myDatabase.prototype.postData = function(_data) {
     }
   }
   this.data[dataIndex++] =
-  new Data(_data.username,_data.profilepic,_data.rating);
+  new Data(_data.username,_data.profilepic,_data.rating,_data.password);
   return true;
 }
 
-myDatabase.prototype.getData = function(username) {
+myDatabase.prototype.getData = function(username,password) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && username == this.data[i].username)
+    if (this.data[i] && username == this.data[i].username && password == this.data[i].password)
     {
       return(new Data(this.data[i].username,this.data[i].profilepic,
-                      this.data[i].rating));
+                      this.data[i].rating, null));
     }
   }
   return null;
@@ -36,9 +36,9 @@ myDatabase.prototype.getData = function(username) {
 
 myDatabase.prototype.putData = function(_data) {
   for (let i=0;i<this.data.length;i++) {
-    if (this.data[i] && this.data[i].username == _data.username) {
+    if (this.data[i] && this.data[i].username == _data.username && _data.password == this.data[i].password) {
       this.data[i] =
-      new Data(_data.username,_data.profilepic,_data.rating);
+      new Data(_data.username,_data.profilepic,_data.rating,this.data[i].password);
       return true;
     }
   }

@@ -43,6 +43,7 @@ router.post('/fileupload', function(req, res) {
 
 router.post('/create', function(req, res){
   let username = req.body.username.trim();
+  let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
   if (filename2 == "") {
@@ -53,8 +54,12 @@ router.post('/create', function(req, res){
       res.json({error:true});
       return;
   }
+  if (password == "") {
+      res.json({error:true});
+      return;
+  }
 
-  let obj = new Data(username,filename2,5); //the 5 is temporary, is the yee rating
+  let obj = new Data(username,filename2,5,password); //the 5 is temporary, is the yee rating
   let val = db.postData(obj);
   if (val)
     res.json({error:false,filename2:filename2});
@@ -64,6 +69,7 @@ router.post('/create', function(req, res){
 });
 router.put('/update', function(req, res){
   let username = req.body.username.trim();
+  let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
   if (filename2 == "") {
@@ -74,8 +80,12 @@ router.put('/update', function(req, res){
       res.json({error:true});
       return;
   }
+  if (password == "") {
+      res.json({error:true});
+      return;
+  }
 
-  let obj = new Data(username,filename2,5); //the 5 is temporary, is the yee rating
+  let obj = new Data(username,filename2,5,password); //the 5 is temporary, is the yee rating
   let val = db.putData(obj);
   if (val)
     res.json({error:false,filename2:filename2});

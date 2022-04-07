@@ -15,7 +15,7 @@ function uploadSuccess(data) {
           $.ajax({
             url: "/create",
             type: "POST",
-            data: {filename2:data.filename2, username:$("#username").val()},
+            data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
                   alert("bad");
@@ -33,11 +33,12 @@ function uploadSuccess(data) {
           $.ajax({
             url: "/update",
             type: "PUT",
-            data: {filename2:data.filename2, username:$("#username").val()},
+            data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
                   alert("bad");
                 else {
+                  alert("good");
                   display.src = "images/" + data2.filename2;
                 }
               } ,
