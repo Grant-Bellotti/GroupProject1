@@ -4,18 +4,18 @@ let socket = io();
 //Get message from server.
 socket.on('welcome', function(data) {
       ident = data.id;
-      console.log(ident);
       $("#messages").append('<li>' + data.message + " " + data.id + '</li>');
 });
 
 //Get message from server.
 socket.on('update', (data) => {
-      $("#messages").append('<li>' + data.ident + '</li>');
+      $("#messages").append('<li>' + data.user +": "+data.msg + '</li>');
 });
 
 function doit() {
 //Send message to server.
-      socket.emit('update', {'ident': ident});
+      msg = $('#postT').val();
+      socket.emit('update', {'msg': msg,'user':ident});
       return false;
 }
 
