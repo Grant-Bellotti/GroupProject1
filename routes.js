@@ -10,6 +10,7 @@ let router = express.Router();
 //request is info sending to server from client.
 //response is info sending to client from server.
 
+
 router.get("/",function(req,res){
   res.sendFile(path.resolve(__dirname + "/public/views/index.html"));  //changed
 });
