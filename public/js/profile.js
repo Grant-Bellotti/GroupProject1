@@ -47,6 +47,15 @@ function uploadSuccess(data) {
   }
 
 }
+function showPassword() {
+  var input = document.getElementById("password");
+  if (input.type === "password") {
+    input.type = "text";
+  }
+  else {
+    input.type = "password";
+  }
+}
 
 $(document).ready(function(){
   $("form").submit(function(event) {
