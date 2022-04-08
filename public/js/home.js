@@ -15,7 +15,8 @@ socket.on('update', (data) => {
 function doit() {
 //Send message to server.
       msg = $('#postT').val();
-      socket.emit('update', {'msg': msg,'user':ident});
+      user = $('#tempUser').val();
+      socket.emit('update', {'msg': msg,'user':user});
       return false;
 }
 
