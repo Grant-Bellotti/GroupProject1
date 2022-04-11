@@ -16,7 +16,22 @@ function doit() {
 //Send message to server.
       msg = $('#postT').val();
       user = $('#tempUser').val();
-      socket.emit('update', {'msg': msg,'user':user});
+      pw = $('#password').val();
+          $.ajax({
+            url: "/check",
+            type: "GET",
+            data: {username:user,password:pw},
+            success: function(data){
+                if (data.error){
+                  alert(data.message);
+                }
+                else {
+                	socket.emit('update', {'msg': msg,'user':user});
+                }
+              } ,
+            dataType: "json"
+          });
+
       return false;
 }
 function showPassword() {
