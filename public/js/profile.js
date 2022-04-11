@@ -9,7 +9,7 @@ function uploadSuccess(data) {
   {
     if (data.error)
     {
-      alert("bad");
+      alert("error");
       return;
     }
           $.ajax({
@@ -18,9 +18,9 @@ function uploadSuccess(data) {
             data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
-                  alert("bad");
+                  alert("error");
                 else {
-                  alert("good");
+                  alert("account created");
                   display.src = "images/" + data2.filename2;
                 }
               } ,
@@ -36,9 +36,9 @@ function uploadSuccess(data) {
             data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
-                  alert("bad");
+                  alert("error");
                 else {
-                  alert("good");
+                  alert("account updated");
                   display.src = "images/" + data2.filename2;
                 }
               } ,
@@ -46,6 +46,15 @@ function uploadSuccess(data) {
           });
   }
 
+}
+function showPassword() {
+  var input = document.getElementById("password");
+  if (input.type === "password") {
+    input.type = "text";
+  }
+  else {
+    input.type = "password";
+  }
 }
 
 $(document).ready(function(){

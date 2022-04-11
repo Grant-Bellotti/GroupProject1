@@ -21,9 +21,16 @@ router.get("/profile",function(req,res){
 const myDatabase = require('./myDatabase');
 let db = new myDatabase();
 
+
+
 const Data = require('./Data');
 let filename2;
-
+/////Dummy Account for tests//////
+{
+let obj = new Data('abc','abc',5,'abc'); 
+let val = db.postData(obj);
+}
+//////////////////////////////////
 router.post('/fileupload', function(req, res) {
     console.log("router.post fileupload");
     var form = new formidable.IncomingForm();
@@ -46,15 +53,15 @@ router.post('/create', function(req, res){
   let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
-  if (filename2 == "") {
-      res.json({error:true});
-      return;
-  }
   if (username == "") {
-      res.json({error:true});
+      res.json({error:true,message:"Username is required"});
       return;
   }
   if (password == "") {
+      res.json({error:true,message:"Password is required"});
+      return;
+  }
+  if (filename2 == "") {
       res.json({error:true});
       return;
   }
@@ -67,20 +74,42 @@ router.post('/create', function(req, res){
     res.json({error:true});
 
 });
+/////Checks Login Info//////
+router.get('/check', function(req, res){
+  let username = req.query.username.trim();
+  let password = req.query.password.trim();
+
+  if (username == "") {
+    res.json({error:true,message:"Username is required"});
+    return;
+  }
+  if (password == "") {
+          res.json({error:true,message:"Password is required"});
+      return;
+  }
+  let val = db.getData(username,password);
+    if (val == null)
+        res.json({error:true,message:'Incorrect username or password'});
+    else
+    {
+      res.json({error:false});
+    }
+});
+
 router.put('/update', function(req, res){
   let username = req.body.username.trim();
   let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
-  if (filename2 == "") {
-      res.json({error:true});
-      return;
-  }
   if (username == "") {
-      res.json({error:true});
+      res.json({error:true,message:"Username is required"});
       return;
   }
   if (password == "") {
+      res.json({error:true,message:"Password is required"});
+      return;
+  }
+  if (filename2 == "") {
       res.json({error:true});
       return;
   }
@@ -90,7 +119,7 @@ router.put('/update', function(req, res){
   if (val)
     res.json({error:false,filename2:filename2});
   else
-    res.json({error:true});
+    res.json({error:true,message:"Incorrect username or password"});
 
 });
 

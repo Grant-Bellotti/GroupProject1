@@ -31,13 +31,29 @@ collapseIt();
 function doit() {
 //Send message to server.
       msg = $('#postT').val();
-      socket.emit('update', {'msg': msg,'user':ident});
+      user = $('#tempUser').val();
+      pw = $('#password').val();
+          $.ajax({
+            url: "/check",
+            type: "GET",
+            data: {username:user,password:pw},
+            success: function(data){
+                if (data.error){
+                  alert(data.message);
+                }
+                else {
+                	socket.emit('update', {'msg': msg,'user':user});
+                }
+              } ,
+            dataType: "json"
+          });
+
       return false;
 }
+
 function collapseIt(){
 var coll = document.getElementsByClassName("collapsible");
 var i;
-
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
@@ -49,6 +65,15 @@ for (i = 0; i < coll.length; i++) {
     }
   });
 }
+}
+function showPassword() {
+  var input = document.getElementById("password");
+  if (input.type === "password") {
+    input.type = "text";
+  }
+  else {
+    input.type = "password";
+  }
 }
 $(document).ready(function(){
 
