@@ -9,7 +9,7 @@ function uploadSuccess(data) {
   {
     if (data.error)
     {
-      alert(data.message);
+      alert("error");
       return;
     }
           $.ajax({
