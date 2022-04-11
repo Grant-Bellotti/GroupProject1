@@ -19,6 +19,15 @@ function doit() {
       socket.emit('update', {'msg': msg,'user':user});
       return false;
 }
+function showPassword() {
+  var input = document.getElementById("password");
+  if (input.type === "password") {
+    input.type = "text";
+  }
+  else {
+    input.type = "password";
+  }
+}
 
 $(document).ready(function(){
 
