@@ -46,15 +46,15 @@ router.post('/create', function(req, res){
   let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
-  if (filename2 == "") {
-      res.json({error:true});
-      return;
-  }
   if (username == "") {
-      res.json({error:true});
+      res.json({error:true,message:"Username is required"});
       return;
   }
   if (password == "") {
+      res.json({error:true,message:"Password is required"});
+      return;
+  }
+  if (filename2 == "") {
       res.json({error:true});
       return;
   }
@@ -72,15 +72,15 @@ router.put('/update', function(req, res){
   let password = req.body.password.trim();
   filename2 = req.body.filename2.trim();
 
-  if (filename2 == "") {
-      res.json({error:true});
-      return;
-  }
   if (username == "") {
-      res.json({error:true});
+      res.json({error:true,message:"Username is required"});
       return;
   }
   if (password == "") {
+      res.json({error:true,message:"Password is required"});
+      return;
+  }
+  if (filename2 == "") {
       res.json({error:true});
       return;
   }
@@ -90,7 +90,7 @@ router.put('/update', function(req, res){
   if (val)
     res.json({error:false,filename2:filename2});
   else
-    res.json({error:true});
+    res.json({error:true,message:"Incorrect username or password"});
 
 });
 
