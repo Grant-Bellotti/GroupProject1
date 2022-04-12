@@ -16,6 +16,9 @@ router.get("/",function(req,res){
 router.get("/profile",function(req,res){
   res.sendFile(path.resolve(__dirname + "/public/views/profile.html"));  //changed
 });
+router.get("/survey",function(req,res){
+  res.sendFile(path.resolve(__dirname + "/public/views/survey.html"));  //changed
+});
 
 
 const myDatabase = require('./myDatabase');
@@ -27,7 +30,7 @@ const Data = require('./Data');
 let filename2;
 /////Dummy Account for tests//////
 {
-let obj = new Data('abc','abc',5,'abc'); 
+let obj = new Data('abc','abc',-1,'abc');
 let val = db.postData(obj);
 }
 //////////////////////////////////
@@ -48,32 +51,6 @@ router.post('/fileupload', function(req, res) {
     });
 });
 
-router.post('/create', function(req, res){
-  let username = req.body.username.trim();
-  let password = req.body.password.trim();
-  filename2 = req.body.filename2.trim();
-
-  if (username == "") {
-      res.json({error:true,message:"Username is required"});
-      return;
-  }
-  if (password == "") {
-      res.json({error:true,message:"Password is required"});
-      return;
-  }
-  if (filename2 == "") {
-      res.json({error:true});
-      return;
-  }
-
-  let obj = new Data(username,filename2,5,password); //the 5 is temporary, is the yee rating
-  let val = db.postData(obj);
-  if (val)
-    res.json({error:false,filename2:filename2});
-  else
-    res.json({error:true});
-
-});
 /////Checks Login Info//////
 router.get('/check', function(req, res){
   let username = req.query.username.trim();
@@ -96,6 +73,32 @@ router.get('/check', function(req, res){
     }
 });
 
+router.post('/create', function(req, res){
+  let username = req.body.username.trim();
+  let password = req.body.password.trim();
+  filename2 = req.body.filename2.trim();
+
+  if (username == "") {
+      res.json({error:true,message:"Username is required"});
+      return;
+  }
+  if (password == "") {
+      res.json({error:true,message:"Password is required"});
+      return;
+  }
+  if (filename2 == "") {
+      res.json({error:true});
+      return;
+  }
+
+  let obj = new Data(username,filename2,(-1),password); //the -1 is temporary, is the yee rating
+  let val = db.postData(obj);
+  if (val)
+    res.json({error:false,filename2:filename2});
+  else
+    res.json({error:true});
+
+});
 router.put('/update', function(req, res){
   let username = req.body.username.trim();
   let password = req.body.password.trim();
@@ -114,10 +117,44 @@ router.put('/update', function(req, res){
       return;
   }
 
-  let obj = new Data(username,filename2,5,password); //the 5 is temporary, is the yee rating
+  let obj = new Data(username,filename2,(db.getData(username,password).rating),password); //the -1 is temporary, is the yee rating
   let val = db.putData(obj);
   if (val)
     res.json({error:false,filename2:filename2});
+  else
+    res.json({error:true,message:"Incorrect username or password"});
+
+});
+router.post('/surveySubmit', function(req, res){
+  let username = req.body.username.trim();
+  let password = req.body.password.trim();
+  let num = parseInt(req.body.surveyNumber);
+
+  if (username == "") {
+    res.json({error:true,message:"Username is required"});
+    return;
+  }
+  if (password == "") {
+    res.json({error:true,message:"Password is required"});
+    return;
+  }
+  if (db.getData(username,password) && db.getData(username,password).rating >= 0) {
+    res.json({error:true,message:"Survey already taken"});
+    return;
+  }
+  let done = false;
+  for(let i=10; i>0; i--) {
+    if(num >= (4*i) && !done) {
+      num = i;
+      done = true;
+    }
+  }
+  console.log("Yee survey num: "+num);
+  let tempData = db.getData(username,password);
+  let obj = new Data(username,tempData.profilepic,num,password); //the 5 is temporary, is the yee rating
+  let val = db.putData(obj);
+  if (val)
+    res.json({error:false,num:num});
   else
     res.json({error:true,message:"Incorrect username or password"});
 
