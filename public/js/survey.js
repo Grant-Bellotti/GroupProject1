@@ -1,10 +1,10 @@
 function submitClicked(){
-  user = $('#tempUser').val();
-  pw = $('#password').val();
+  username = $('#tempUser').val();
+  password = $('#password').val();
   $.ajax({
     url: "/check",
     type: "GET",
-    data: {username:user,password:pw},
+    data: {username:username,password:password},
     success: function(data){
       if (data.error){
         alert(data.message);
@@ -15,15 +15,19 @@ function submitClicked(){
                         parseInt($("input:radio[name='q5']:checked").val()) + parseInt($("input:radio[name='q6']:checked").val()) +
                         parseInt($("input:radio[name='q7']:checked").val()) + parseInt($("input:radio[name='q8']:checked").val()) +
                         parseInt($("input:radio[name='q9']:checked").val()) + parseInt($("input:radio[name='q10']:checked").val()));
+        if(!surveyNum) {
+          alert("all questions must be answered");
+          return
+        }
         $.ajax({
           url: "/surveySubmit",
           type: "POST",
           data: {surveyNumber:surveyNum,
-                 password:"abc",
-                 username:"abc"},
+                 password:password,
+                 username:username},
           success: function(data){
             if(data.error)
-              alert("error");
+              alert(data.message);
             else {
               console.log(data.num);
               alert("your survey number is "+data.num);
@@ -50,5 +54,6 @@ function showPassword() {
 
 $(document).ready(function(){
   $("#submitButton").click(submitClicked);
+
 
 });

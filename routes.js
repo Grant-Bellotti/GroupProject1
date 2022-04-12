@@ -130,16 +130,8 @@ router.post('/surveySubmit', function(req, res){
   let password = req.body.password.trim();
   let num = parseInt(req.body.surveyNumber);
 
-  if (username == "") {
-    res.json({error:true,message:"Username is required"});
-    return;
-  }
-  if (password == "") {
-    res.json({error:true,message:"Password is required"});
-    return;
-  }
   if (db.getData(username,password) && db.getData(username,password).rating >= 0) {
-    res.json({error:true,message:"Survey already taken"});
+    res.json({error:true,message:"the survey has already been taken on this account"});
     return;
   }
   let done = false;
