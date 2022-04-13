@@ -1,6 +1,6 @@
-let numQuestions = 10; //have to add more questions to the array if you change this number
-let numQuestionsRemaining = 10;
-let numAnswers = 4;
+const numQuestions = 10; //change number if changing amount of questions
+const numAnswers = 4; //change number if changing amount of answers
+let numQuestionsRemaining = 10; //should equal the number in numQuestions
 let questions = ["<label>What is beef?</label> <br>",
                   "<label>What is chicken?</label> <br>",
                   "<label>What is pork?</label> <br>",
@@ -84,7 +84,7 @@ function randomQuestion(num) {
   questions.splice(tempNum,1);
   answers.splice(tempNum,1);
   numQuestionsRemaining--;
-  
+
   return returnVal;
 }
 
