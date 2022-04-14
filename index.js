@@ -19,10 +19,14 @@ let server = http.createServer(app);
 let io = require('socket.io')(server);
 
 io.on('connection', function(socket) {
+
     socket.emit('welcome', { message: 'Welcome!', id: socket.id });
 
     socket.on('update', function (data) {
         io.emit('update', data);
+    });
+    socket.on('updateComments', function (data) {
+        io.emit('updateComments', data);
     });
 
 });
