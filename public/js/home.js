@@ -16,8 +16,10 @@ let message =  messageid.toString();
 let user = data.user.toString();
 let abc = " ";
 $("#messages").append(
+
 "<fieldset>"+
 '<p>'+ " Username: " + user +" "+  data.msg + '</p>'+
+
 "<button type="+ "button"+
 " class="+ "collapsible"+
 " id =" + messageid +

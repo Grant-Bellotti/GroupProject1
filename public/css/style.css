@@ -1,0 +1,58 @@
+html{
+  font-family: Helvetica,Arial, sans-serif;
+}
+fieldset{
+  padding: 20px;
+  
+}
+ul{
+  list-style-type: none;
+}
+.postli{
+font-size: larger;
+font-weight: bold ;
+color: #ffffff;
+background-color: #000000;
+padding: 10px;
+}
+.postC{
+  height: 100px;
+  width:75%;
+  border-style: solid;
+}
+.Login{
+  text-align: right;
+}
+#NAVul {
+  font-weight: bold;
+  font-family: Helvetica,Arial, sans-serif;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  background-color: #000000;  
+}
+
+#NAVli {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+
+}
+
+li a.active {
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+}
