@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="/style.css">  
+
 <html>
   <head>
     <title>MR Yee Fan Club</title>
@@ -31,12 +33,20 @@
 
   </head>
   <body>
-    <hr>
+    <ul id="NAVul">
+    <li id='NAVli'><a class="active" href="/">Home</a></li>
+    <li id='NAVli'><a href="/profile">Profile</a></li>
+    <li id='NAVli'><a href="/survey">Survey</a></li>
+    </ul>
+    
     <h1>Mr Yee Fan Club</h1>
     <h3>WE LOVE YOU MR YEE!</h3>
-    Username: <input type="text" id="tempUser"> 
-    Password: <input id="password" type="password" name="password">
-    <input type="checkbox" onclick="showPassword()">Show Password
+<div class="Login">
+  Username: <input type="text" id="tempUser"> 
+  Password: <input id="password" type="password" name="password">
+  <input type="checkbox" onclick="showPassword()">Show Password
+</div>
+
 
         <form>
       <fieldset>
@@ -46,6 +56,7 @@
               <legend>Post all your Mr Yee related love!</legend>
               <ul id='messages'></ul>
                 <input id="postT" type="text">
+                <p class="postC" contenteditable="true"></p>
                 <input id = "postb" type="button" name="postb" value="Post Message" onclick="doit()">
           </fieldset>
 

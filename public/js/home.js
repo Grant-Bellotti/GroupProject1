@@ -14,7 +14,7 @@ if(data.msg == "")
  return;
 
 $("#messages").append(
-'<li>' + data.msg + " " + data.user + '</li>'+
+'<li class="postli">' + data.msg + " " + data.user + '</li>'+
 "<button type="+ "button"+
 " class="+ "collapsible"+
 //"onclick=" +"collapseIt()"+
