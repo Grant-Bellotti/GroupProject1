@@ -6,28 +6,7 @@
     <title>MR Yee Fan Club</title>
     <meta charset="utf-8"/>
     <style>
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 10%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
 
-.active, .collapsible:hover {
-  background-color: #555;
-}
-
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
     </style>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
@@ -54,10 +33,10 @@
           <div>
           <fieldset>
               <legend>Post all your Mr Yee related love!</legend>
-                <ul id="messages"></ul>
-                <input id="postT" type="text">
+              <ul id='messages'></ul>
+                <input id="postT" type="text"><br><br>
                 <p class="postC" contenteditable="true"></p>
-                <input id = "postb" type="button" name="postb" value="Post Message" onclick="doit()">
+                <input class="button" id="postb" type="button" name="postb" value="Post Message" onclick="doit()">
           </fieldset>
 
       </fieldset>

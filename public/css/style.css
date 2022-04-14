@@ -1,9 +1,56 @@
 html{
   font-family: Helvetica,Arial, sans-serif;
 }
+.button{
+  background-color: #000000; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button:hover:not(.active) {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-style: solid;  
+  border-color: #000000;
+}
+
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 115px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
 fieldset{
+  border-style: solid;
   padding: 20px;
-  
+  border-color: black;
+
+}
+legend {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 5px 10px;
 }
 ul{
   list-style-type: none;
@@ -16,8 +63,8 @@ background-color: #000000;
 padding: 10px;
 }
 .postC{
-  height: 100px;
-  width:75%;
+  height:max-content;
+  width: 75%;
   border-style: solid;
 }
 .Login{
@@ -49,7 +96,6 @@ li a {
 li a:hover:not(.active) {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-
 }
 
 li a.active {
