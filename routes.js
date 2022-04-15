@@ -44,7 +44,7 @@ router.post('/fileupload', function(req, res) {
         mv(oldpath, newpath, function (err) {
 //            if (err) throw err;
             if (err)
-                res.json({error:true});
+                res.json({error:false,filename2: "empty.webp"});
             else
                 res.json({error:false,filename2: files.image.name });
         });
@@ -87,8 +87,7 @@ router.post('/create', function(req, res){
       return;
   }
   if (filename2 == "") {
-      res.json({error:true});
-      return;
+      filename2 = "images/empty.webp";
   }
 
   let obj = new Data(username,filename2,(-1),password); //the -1 is temporary, is the yee rating
@@ -113,8 +112,7 @@ router.put('/update', function(req, res){
       return;
   }
   if (filename2 == "") {
-      res.json({error:true});
-      return;
+      filename2 = "images/empty.webp";
   }
 
   let obj = new Data(username,filename2,(db.getData(username,password).rating),password); //the -1 is temporary, is the yee rating
