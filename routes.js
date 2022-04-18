@@ -19,7 +19,12 @@ router.get("/profile",function(req,res){
 router.get("/survey",function(req,res){
   res.sendFile(path.resolve(__dirname + "/public/views/survey.html"));  //changed
 });
-
+router.get("/yeeside",function(req,res){
+  res.sendFile(path.resolve(__dirname + "/public/views/yeelogin.html"));  //changed
+});
+router.get("/yeeview",function(req,res){
+  res.sendFile(path.resolve(__dirname + "/public/views/yeeview.html"));  //changed
+});
 
 const myDatabase = require('./myDatabase');
 let db = new myDatabase();
