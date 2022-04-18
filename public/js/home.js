@@ -14,25 +14,37 @@ if(data.msg == "")
  return;
 
 $("#messages").append(
-'<p class="postli">' + data.msg + " " + data.user + '</p>'+
-"<button type="+ "button"+
-" class="+ "collapsible"+
-//"onclick=" +"collapseIt()"+
-">Comments</button>"+
+ '<div class="postBlock">' +
+'<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+ 
+'<div>'+
+"<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
 "<div class="+ "content"+"> " +"<hr>"
   +"<p>Lorem ipsum...</p>" +"<hr>"
+  +"</div>"
 +"</div>"
++ "</div>"
+
+
 );
 collapseIt();
 
 });
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 function doit() {
 //Send message to server.
       msg = $('#postT').val();
       user = $('#tempUser').val();
       pw = $('#password').val();
+      color = getRandomColor()
           $.ajax({
             url: "/check",
             type: "GET",
@@ -42,7 +54,7 @@ function doit() {
                   alert(data.message);
                 }
                 else {
-                	socket.emit('update', {'msg': msg,'user':user});
+                	socket.emit('update', {'msg': msg,'user':user,'color':color});
                 }
               } ,
             dataType: "json"

@@ -28,19 +28,23 @@
 
 
         <form>
-      <fieldset>
+      <fieldset id="homeForm">
         <legend>Home Page</legend>
           <div>
           <fieldset>
               <legend>Post all your Mr Yee related love!</legend>
-              <ul id='messages'></ul>
+              
                 <input id="postT" type="text"><br><br>
                 <p class="postC" contenteditable="true"></p>
-                <input class="button" id="postb" type="button" name="postb" value="Post Message" onclick="doit()">
+                <input  class="button" id="postb" type="button" name="postb" value="Post Message" onclick="doit()">
           </fieldset>
 
       </fieldset>
     </form>
+    <br>
+    <div>
+      <ul id='messages'></ul>
+    </div>
     <script src='/socket.io/socket.io.js'></script>
 
     <script src="js/home.js"></script>
