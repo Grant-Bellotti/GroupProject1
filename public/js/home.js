@@ -13,20 +13,36 @@ socket.on('update', (data) => {
 if(data.msg == "")
  return;
 
-$("#messages").append(
- '<div class="postBlock">' +
-'<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+ 
-'<div>'+
-"<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
+if(data.type == "Text") {
+  $("#messages").append(
+    '<div class="postBlock">' +
+    '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+
+    '<div>'+
+    "<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
-"<div class="+ "content"+"> " +"<hr>"
-  +"<p>Lorem ipsum...</p>" +"<hr>"
-  +"</div>"
-+"</div>"
-+ "</div>"
+    "<div class="+ "content"+"> " +"<hr>"
+    +"<p>Lorem ipsum...</p>" +"<hr>"
+    +"</div>"
+    +"</div>"
+    + "</div>"
+  );
+}
+else if(data.type == "Image") {
+  $("#messages").append(
+    "<div class='postBlock'>" +
+    "<p class='imageUser'>" + data.user + "</p>" +
+    "<img id='display' class='postli' style='background-color:'"+ data.color +";' src='" + "images/" + data.msg + "' height='150' width='150'>" +
+    "<div>" +
+    "<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
+    "<div class="+ "content"+"> " +"<hr>"
+    +"<p>Lorem ipsum...</p>" +"<hr>"
+    +"</div>"
+    +"</div>"
+    + "</div>"
+  );
+}
 
-);
 collapseIt();
 
 });
@@ -38,7 +54,7 @@ function getRandomColor() {
   }
   return color;
 }
-
+/*
 function doit() {
 //Send message to server.
       msg = $('#postT').val();
@@ -61,6 +77,41 @@ function doit() {
           });
 
       return false;
+}
+*/
+function uploadSuccess(data) {
+  let type = $("input:radio[name='type']:checked").val();
+  let user = $('#tempUser').val();
+  let pw = $('#password').val();
+  let msg = "";
+  let color = getRandomColor()
+  if (data.error)
+  {
+    alert(data.message);
+    return;
+  }
+
+  $.ajax({
+    url: "/check",
+    type: "GET",
+    data: {username:user,password:pw},
+    success: function(data2){
+      if (data2.error){
+        alert(data2.message);
+      }
+      else {
+        if (type == "Text") {
+          msg = $('#postT').val();
+        }
+        else if (type == "Image") {
+          msg = data.filename2;
+        }
+
+        socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color});
+      }
+    } ,
+    dataType: "json"
+  });
 }
 
 function collapseIt(){
@@ -89,5 +140,19 @@ function showPassword() {
   }
 }
 $(document).ready(function(){
+  $("form").submit(function(event) {
+    let data = new FormData($(this)[0]);
+    $.ajax({
+      url: '/fileupload',
+      type: 'POST',
+      data: data,
+      processData: false, // These two are needed to prevent JQuery from processing the form data
+      contentType: false,
+      mimeType: 'multipart/form-data',
+      dataType: 'json', // Without this, the server's response will be a string instead of a JSON object
+      success: uploadSuccess
+    });
+    return false;
+  });
 
 });

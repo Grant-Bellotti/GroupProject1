@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="/style.css">  
+<link rel="stylesheet" type="text/css" href="/style.css">
 
 <html>
   <head>
@@ -17,11 +17,11 @@
     <li id='NAVli'><a href="/profile">Profile</a></li>
     <li id='NAVli'><a href="/survey">Survey</a></li>
     </ul>
-    
+
     <h1>Mr Yee Fan Club</h1>
     <h3>WE LOVE YOU MR YEE!</h3>
 <div class="Login">
-  Username: <input type="text" id="tempUser"> 
+  Username: <input type="text" id="tempUser">
   Password: <input id="password" type="password" name="password">
   <input type="checkbox" onclick="showPassword()">Show Password
 </div>
@@ -31,12 +31,23 @@
       <fieldset id="homeForm">
         <legend>Home Page</legend>
           <div>
+            <label>Post Type:</label>
+            <input type="radio" id="Text" name="type" value="Text" checked>
+            <label for="type">Text</label>
+            <input type="radio" id="Image" name="type" value="Image">
+            <label for="type">Image</label> <br><br>
+
           <fieldset>
               <legend>Post all your Mr Yee related love!</legend>
-              
+
                 <input id="postT" type="text"><br><br>
                 <p class="postC" contenteditable="true"></p>
-                <input  class="button" id="postb" type="button" name="postb" value="Post Message" onclick="doit()">
+
+                <form id="fileupload">
+                <label for="uploader">Upload Profile Picture:</label>
+                <input id="uploader" type="file" name="image"> <br><br>
+                <input  class="button" id="postb" type="submit" name="postb" value="Post Message">
+                </form>
           </fieldset>
 
       </fieldset>

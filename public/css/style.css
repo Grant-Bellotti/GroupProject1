@@ -5,7 +5,7 @@ html{
   border-style: hidden;
 }
 .button{
-  background-color: #000000; 
+  background-color: #000000;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -17,10 +17,15 @@ html{
 .postBlock{
   display:inline-block;
 }
+.imageUser{
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
 .button:hover:not(.active) {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-  border-style: solid;  
+  border-style: solid;
   border-color: #000000;
 }
 
@@ -102,7 +107,7 @@ width: 150px;
   padding: 0;
   overflow: hidden;
   border: 1px solid #e7e7e7;
-  background-color: #000000;  
+  background-color: #000000;
 }
 
 #NAVli {
