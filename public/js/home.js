@@ -5,9 +5,9 @@ let messageid;
                       type: "GET",
                       data: {'id':0},
                       success: function(data){
-                           
+
                             messageid = data;
-                            
+
                         } ,
                       dataType: "json"
     });
@@ -21,10 +21,10 @@ socket.on('welcome', function(data) {
                       type: "GET",
                       data: {'id':0},
                       success: function(rata){
-                           
+
                             storedMessages = rata.test;
-                        console.log(rata.test);   
-                         $("#messages").append(storedMessages); 
+                        console.log(rata.test);
+                         $("#messages").append(storedMessages);
                         } ,
                       dataType: "json"
                     });
@@ -63,7 +63,7 @@ $("#messages").append(
                       type: "POST",
                       data: {message:data.msg,id:messageid,user:User},
                       success: function(data){
-                     
+
                         } ,
                       dataType: "json"
                     });
@@ -75,9 +75,9 @@ collapseIt(message);
                       type: "GET",
                       data: {'id':0},
                       success: function(data){
-                           
+
                             messageid = data;
-                            
+
                         } ,
                       dataType: "json"
     });
@@ -88,6 +88,14 @@ socket.on('updateComments',(data) =>
 {
 $("#"+"p"+data.messageID).append("<p> "+ data.user + " " + data.text +  " <p>");
 });
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 function doit() {
 //Send message to server.
@@ -111,7 +119,7 @@ function doit() {
                       success: function(data){
                           if (data.error)
                             alert(data.message);
-                          else 
+                          else
                             profdata = data.value;
                         } ,
                       dataType: "json"
