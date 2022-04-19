@@ -1,33 +1,12 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="/style.css">  
+<link rel="stylesheet" type="text/css" href="/style.css">
 
 <html>
   <head>
     <title>MR Yee Fan Club</title>
     <meta charset="utf-8"/>
     <style>
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 10%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
 
-.active, .collapsible:hover {
-  background-color: #555;
-}
-
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
     </style>
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
@@ -38,30 +17,45 @@
     <li id='NAVli'><a href="/profile">Profile</a></li>
     <li id='NAVli'><a href="/survey">Survey</a></li>
     </ul>
-    
+
     <h1>Mr Yee Fan Club</h1>
     <h3>WE LOVE YOU MR YEE!</h3>
 <div class="Login">
-  Username: <input type="text" id="tempUser"> 
+  Username: <input type="text" id="tempUser">
   Password: <input id="password" type="password" name="password">
   <input type="checkbox" onclick="showPassword()">Show Password
 </div>
 
 
         <form>
-      <fieldset>
+      <fieldset id="homeForm">
         <legend>Home Page</legend>
           <div>
+            <label>Post Type:</label>
+            <input type="radio" id="Text" name="type" value="Text" checked>
+            <label for="type">Text</label>
+            <input type="radio" id="Image" name="type" value="Image">
+            <label for="type">Image</label> <br><br>
+
           <fieldset>
               <legend>Post all your Mr Yee related love!</legend>
-                <ul id="messages"></ul>
-                <input id="postT" type="text">
+
+                <input id="postT" type="text"><br><br>
                 <p class="postC" contenteditable="true"></p>
-                <input id = "postb" type="button" name="postb" value="Post Message" onclick="doit()">
+
+                <form id="fileupload">
+                <label for="uploader">Upload Profile Picture:</label>
+                <input id="uploader" type="file" name="image"> <br><br>
+                <input  class="button" id="postb" type="submit" name="postb" value="Post Message">
+                </form>
           </fieldset>
 
       </fieldset>
     </form>
+    <br>
+    <div>
+      <ul id='messages'></ul>
+    </div>
     <script src='/socket.io/socket.io.js'></script>
 
     <script src="js/home.js"></script>

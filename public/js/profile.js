@@ -9,7 +9,7 @@ function uploadSuccess(data) {
   {
     if (data.error)
     {
-      alert("error");
+      alert(data.message);
       return;
     }
           $.ajax({
@@ -18,7 +18,7 @@ function uploadSuccess(data) {
             data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
-                  alert("error");
+                  alert(data2.message);
                 else {
                   alert("account created");
                   display.src = "images/" + data2.filename2;
@@ -36,7 +36,7 @@ function uploadSuccess(data) {
             data: {filename2:data.filename2, username:$("#username").val(), password:$("#password").val()},
             success: function(data2){
                 if (data2.error)
-                  alert("error");
+                  alert(data2.message);
                 else {
                   alert("account updated");
                   display.src = "images/" + data2.filename2;
