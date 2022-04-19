@@ -17,7 +17,7 @@ return this.message.length;
 }
 myDatabase.prototype.postData = function(_data) {
   this.message[messageIndex++] =
-  new Data(_data.message,_data.id,_data.user);
+  new Data(_data.message,_data.id,_data.user,_data.type,_data.color);
   return true;
 }
 
@@ -25,7 +25,7 @@ myDatabase.prototype.getData = function(id) {
   for (let i=0;i<this.message.length;i++) {
     if ( id == i)
     {
-      return(new Data(this.message[i].message, this.message[i].id,this.message[i].user));
+      return(new Data(this.message[i].message, this.message[i].id,this.message[i].user,this.message[i].type,this.message[i].color));
     }
   }
   return "snuggy wuggy";
@@ -35,7 +35,7 @@ myDatabase.prototype.putData = function(_data) {
   for (let i=0;i<this.message.length;i++) {
     if (this.message[i] && this.message[i].id == _data.id ) {
       this.message[i] =
-      new Data(_data.message,_data.id,_data.user);
+      new Data(_data.message,_data.id,_data.user,_data.type,_data.color);
       return true;
     }
   }

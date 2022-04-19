@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="/style.css">  
+<link rel="stylesheet" type="text/css" href="/style.css">
 
 <html>
   <head>
@@ -30,7 +30,7 @@
 
         <label for="uploader">Upload Profile Picture:</label>
         <input id="uploader" type="file" name="image">
-        <img id="display" src="" alt="" height="50" width="50">
+        <img id="display" src="images/empty.webp" alt="" height="50" width="50">
         <br>
         <label for="password">Password:</label>
         <input id="password" type="password" name="password">
@@ -38,8 +38,9 @@
         <input type="checkbox" onclick="showPassword()">Show Password
 
       </fieldset>
-      <input onclick=setAction("Create") type="submit" value="Create Account">
-      <input onclick=setAction("Update") type="submit" value="Update Account">
+      <br>
+      <input class="button" onclick=setAction("Create") type="submit" value="Create Account">
+      <input class="button" onclick=setAction("Update") type="submit" value="Update Account">
       </form>
 
     </form>

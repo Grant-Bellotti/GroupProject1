@@ -19,18 +19,22 @@ router.get("/profile",function(req,res){
 router.get("/survey",function(req,res){
   res.sendFile(path.resolve(__dirname + "/public/views/survey.html"));  //changed
 });
-
+router.get("/yeeside",function(req,res){
+  res.sendFile(path.resolve(__dirname + "/public/views/yeelogin.html"));  //changed
+});
+router.get("/yeeview",function(req,res){
+  res.sendFile(path.resolve(__dirname + "/public/views/yeeview.html"));  //changed
+});
 
 const myDatabase = require('./myDatabase');
 let db = new myDatabase();
 
 const mymessDatabase = require('./messageDatabase');
 let messageDb = new mymessDatabase();
-const MessageData = require('./message');
 
-
-let messageID = 1;
 const Data = require('./Data');
+const MessageData = require('./message');
+let messageID = 1;
 let filename2;
 /////Dummy Account for tests//////
 {
@@ -48,22 +52,19 @@ router.post('/fileupload', function(req, res) {
         mv(oldpath, newpath, function (err) {
 //            if (err) throw err;
             if (err)
-                res.json({error:true});
+                res.json({error:false,filename2: "empty.webp"});
             else
                 res.json({error:false,filename2: files.image.name });
         });
     });
 });
 
-/////Checks Login Info//////
-////////////////////////////////////////////////////////////////////////////////
 router.post('/storeMessage', function(req, res){
   let message = req.body.message.trim();
   let id = req.body.id.trim();
   let user = req.body.user.trim();
-  console.log(message);
-  console.log(id);
-  console.log(user);
+  let type = req.body.type.trim();
+  let color = req.body.color.trim();
  //let survey= req.body.survey.trim();
 
   if (message == "") {
@@ -71,7 +72,7 @@ router.post('/storeMessage', function(req, res){
       return;
   }
 
-  let obj = new MessageData(message,id,user); //the -1 is temporary, is the yee rating
+  let obj = new MessageData(message,id,user,type,color); //the -1 is temporary, is the yee rating
   let val = messageDb.postData(obj);
   messageID++;
   console.log(val);
@@ -81,43 +82,64 @@ router.post('/storeMessage', function(req, res){
     res.json({error:true});
 
 });
-router.get('/getstoredMessages', function(req, res){
 
+router.get('/getstoredMessages', function(req, res){
   let chat = "";
+
   console.log(messageDb.getmessageLength());
   if(messageDb.getmessageLength()>0){
-  for(let i =0; i<messageDb.getmessageLength();i++)
-  {
-    let newMessage = messageDb.getData(i);
-    console.log(messageDb.getData(i));
-    chat += "<fieldset>"+
-              '<p>'+ "Rating: " + " Username: " + newMessage.user +" "+  newMessage.message + '</p>'+
+    for(let i =0; i<messageDb.getmessageLength();i++) {
+      let newMessage = messageDb.getData(i);
+      let type = newMessage.type;
 
-              "<button type="+ "button"+
-              " class="+ "collapsible"+
-              " id =" + newMessage.id +
-              //"onclick=" +"collapseIt()"+
-              ">Comments</button>"+
+      if(type == "Text") {
+        chat += (
+        '<div class="postBlock">' +
+        '<p class="postli" style="background-color:'+ newMessage.color +';">' + newMessage.message + " " + newMessage.user + '<br>'+'<body>'+newMessage.message+'</body>'+'</p>'+
+        '<div>' +
 
-              "<div id =" + "d"+ newMessage.id + " class="+ "content"+"> " +"<hr>"
-                +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
-                + "<input id =" + "t" + newMessage.id + " type="+ "text"+">"
-                +"<input id =" + "c"+ newMessage.id + " type=button name=commentb value=PostComment onclick= " + "commentit("+  newMessage.id + ")>" +"<br>"
-              +"</div>"
-              +"</fieldset>"
+        "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+
+
+        "<div id =" + "d"+ newMessage.id + " class="+ "content"+"> " +"<hr>"
+          +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
+          +"<input id =" + "t" + newMessage.id + " type="+ "text"+">"
+          +"<input id =" + "c"+ newMessage.id + " type=button name=commentb" +
+          "value=PostComment onclick= " + "commentit("+  newMessage.id + ")>" +"<br>"
+        +"</div>"
+        +"</div>"
+        +"</div>"
+        );
+      }
+      else if(type == "Image") {
+        chat += (
+        '<div class="postBlock">' +
+        "<p class='imageUser'>" + newMessage.user + "</p>" +
+        "<img id='display' class='postli' style='background-color:'"+ newMessage.color +";' src='" + "images/" + newMessage.message + "' height='150' width='150'>" +
+        '<div>' +
+
+      "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+
+
+      "<div id =" + "d"+ newMessage.id + " class="+ "content"+"> " +"<hr>"
+        +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
+        +"<input id =" + "t" + newMessage.id + " type="+ "text"+">"
+        +"<input id =" + "c"+ newMessage.id + " type=button name=commentb" +
+        "value=PostComment onclick= " + "commentit("+  newMessage.id + ")>" +"<br>"
+      +"</div>"
+      +"</div>"
+      +"</div>"
+        );
+      }
+    }
   }
-}
-console.log(chat);
   res.json({test:chat});
+
 });
 router.get('/getMessageid', function(req, res){
-
   res.json(messageID);
+
 });
 
-
-
-///////////////////////////////////////Message Database Code///////////////////////
+/////Checks Login Info//////
 router.get('/check', function(req, res){
   let username = req.query.username.trim();
   let password = req.query.password.trim();
@@ -138,27 +160,7 @@ router.get('/check', function(req, res){
       res.json({error:false});
     }
 });
-router.get('/getSurvey', function(req, res){
 
-  let username = req.query.username.trim();
-  let password = req.query.password.trim();
-
-  if (username == "") {
-    res.json({error:true,message:"Username is required"});
-    return;
-  }
-  if (password == "") {
-          res.json({error:true,message:"Password is required"});
-      return;
-  }
-  let val = db.getData(username,password);
-    if (val == null)
-        res.json({error:true,message:'Incorrect username or password'});
-    else
-    {
-      res.json({error:false, value:val});
-    }
-});
 router.post('/create', function(req, res){
   let username = req.body.username.trim();
   let password = req.body.password.trim();
@@ -173,8 +175,7 @@ router.post('/create', function(req, res){
       return;
   }
   if (filename2 == "") {
-      res.json({error:true});
-      return;
+      filename2 = "images/empty.webp";
   }
 
   let obj = new Data(username,filename2,(-1),password); //the -1 is temporary, is the yee rating
@@ -199,8 +200,7 @@ router.put('/update', function(req, res){
       return;
   }
   if (filename2 == "") {
-      res.json({error:true});
-      return;
+      filename2 = "images/empty.webp";
   }
 
   let obj = new Data(username,filename2,(db.getData(username,password).rating),password); //the -1 is temporary, is the yee rating
