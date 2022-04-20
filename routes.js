@@ -114,7 +114,8 @@ router.get('/getstoredMessages', function(req, res){
         chat += (
         '<div class="postBlock">' +
         "<p class='imageUser'>" + newMessage.user + "</p>" +
-        "<img id='display' class='postli' style='background-color:'"+ newMessage.color +";' src='" + "images/" + newMessage.message + "' height='150' width='150'>" +
+        "<img id='display' class='postli'" + 'style="background-color:'+ newMessage.color +';" src="images/' + newMessage.message +'"height="150" width="150">' +
+
         '<div>' +
 
       "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+

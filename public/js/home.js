@@ -37,7 +37,7 @@ socket.on('update', (data) => {
   if(data.type == "Text") {
     $("#messages").append(
       '<div class="postBlock">' +
-      '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+
+      '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user +': ' + '<br>'+'<body>'+data.bodyMSG+'</body>'+'</p>'+
       '<div>'+
       "<button type=button id='" + messageid + "'class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
@@ -55,7 +55,7 @@ socket.on('update', (data) => {
     $("#messages").append(
       "<div class='postBlock'>" +
       "<p class='imageUser'>" + data.user + "</p>" +
-      "<img id='display' class='postli' style='background-color:'"+ data.color +";' src='" + "images/" + data.msg + "' height='150' width='150'>" +
+      "<img id='display' class='postli'" + 'style="background-color:'+ data.color +';" src="images/' + data.msg +'"height="150" width="150">' +
       "<div>" +
       "<button type=button id='" + messageid + "'class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
@@ -102,6 +102,7 @@ function uploadSuccess(data) {
   let user = $('#tempUser').val();
   let pw = $('#password').val();
   let msg = "";
+  let bodyMSG = ''
   let color = getRandomColor()
   if (data.error)
   {
@@ -120,6 +121,8 @@ function uploadSuccess(data) {
       else {
         if (type == "Text") {
           msg = $('#postT').val();
+          bodyMSG = $('#postC').text();
+          console.log(bodyMSG);
         }
         else if (type == "Image") {
           msg = data.filename2;
@@ -133,7 +136,7 @@ function uploadSuccess(data) {
           } ,
           dataType: "json"
         });
-        socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color});
+        socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color,'bodyMSG':bodyMSG});
       }
     } ,
     dataType: "json"
