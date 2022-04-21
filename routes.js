@@ -87,7 +87,7 @@ router.post('/storeMessage', function(req, res){
 
 router.get('/getstoredMessages', function(req, res){
   let chat = "";
-
+  let newmessageId;
   console.log(messageDb.getmessageLength());
   if(messageDb.getmessageLength()>0){
     for(let i =0; i<messageDb.getmessageLength();i++) {
@@ -122,7 +122,7 @@ router.get('/getstoredMessages', function(req, res){
 
       "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+
 
-      "<div id =" + "d"+ newMessage.id + " class="+ "content"+"> " +"<hr>"
+      "<div id =" + "d"+ newMessage + " class="+ "content"+"> " +"<hr>"
         +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
         +"<input id =" + "t" + newMessage.id + " type="+ "text"+">"
         +"<input id =" + "c"+ newMessage.id + " type=button name=commentb" +
@@ -132,9 +132,10 @@ router.get('/getstoredMessages', function(req, res){
       +"</div>"
         );
       }
+      newmessageId = newMessage.id;
     }
   }
-  res.json({test:chat});
+  res.json({test:chat, IDs:newmessageId});
 
 });
 router.get('/getMessageid', function(req, res){

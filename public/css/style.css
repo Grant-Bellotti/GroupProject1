@@ -30,7 +30,7 @@ html{
 }
 
 .collapsible {
-  display: inline-block;
+  display: block;
   background-color: rgb(0, 0, 0);
   color: white;
   cursor: pointer;

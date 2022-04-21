@@ -23,6 +23,9 @@ socket.on('welcome', function(data) {
      storedMessages = data2.test;
      console.log(data2.test);
      $("#messages").append(storedMessages);
+     for(let i =1; i<=data2.IDs;i++) {
+      collapseIt(i);
+     }
    } ,
    dataType: "json"
   });
@@ -40,7 +43,7 @@ if(data.type == "Text") {
     '<div class="postBlock">' +
     '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+
     '<div>'+
-    "<button type=button id ="+ messageid+ "class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
+    "<button type=button id ="+ messageid+ " class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
         "<div id =" + "d"+ messageid + " class="+ "content"+"> " +"<hr>"
         +"<ul id=" + "p"+ messageid + "></ul>" + "<br>"
@@ -58,7 +61,7 @@ else if(data.type == "Image") {
     "<p class='imageUser'>" + data.user + "</p>" +
     "<img id='display' class='postli' style='background-color:'"+ data.color +";' src='" + "images/" + data.msg + "' height='150' width='150'>" +
     "<div>" +
-    "<button type=button id ="+ messageid+ "class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
+    "<button type=button id ="+ messageid+ " class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
         "<div id =" + "d"+ messageid + " class="+ "content"+"> " +"<hr>"
         +"<ul id=" + "p"+ messageid + "></ul>" + "<br>"
@@ -71,7 +74,7 @@ else if(data.type == "Image") {
   );
 }
 
-collapseIt();
+collapseIt(messageid);
 $.ajax({
     url: "/getmessageid",
     type: "GET",
@@ -156,13 +159,11 @@ function uploadSuccess(data) {
 
           bodyMSG = $('#postC').text();
           console.log(bodyMSG);
-
+        }
         else if (type == "Image") {
           msg = data.filename2;
         }
 
-
-        socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color});
         $.ajax({
           url: "/storeMessage",
           type: "POST",
@@ -199,16 +200,14 @@ if(text != ""){
     dataType: "json"
   });
 }
-
 else
   alert("you need a message");
+}
 
+function collapseIt(messageID){
+var coll = document.getElementById(messageID);
 
-function collapseIt(){
-var coll = document.getElementsByClassName("collapsible");
-var i;
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
+  coll.addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
     if (content.style.display === "block") {
@@ -217,7 +216,7 @@ for (i = 0; i < coll.length; i++) {
       content.style.display = "block";
     }
   });
-}
+
 }
 
 function showPassword() {
