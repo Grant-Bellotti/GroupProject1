@@ -74,6 +74,8 @@ ul{
 }
 .postli{
 display: inline-block;
+word-wrap: break-word;
+overflow: auto;
 text-align: center;
 font-size: larger;
 font-weight: bold ;
@@ -90,6 +92,21 @@ width: 150px;
   color: #000000;
   border-color: #000000;
 }
+
+
+.postliContent{
+  display: inline-block;
+  word-wrap: break-word;
+  overflow: auto;
+  text-align: center;
+  font-size: larger;
+  font-weight: bold ;
+  color: #ffffff;
+  padding: 10px;
+  height: 150px;
+  width: 150px;
+  }
+
 
 .postC{
   height:max-content;

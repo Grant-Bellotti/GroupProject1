@@ -1,10 +1,32 @@
 let ident;
 
+let messageid;
 let socket = io();
+$.ajax({
+  url: "/getmessageid",
+  type: "GET",
+  data: {'id':0},
+  success: function(data){
+    messageid = data;
+  } ,
+  dataType: "json"
+});
+
 //Get message from server.
 socket.on('welcome', function(data) {
-      ident = data.id;
-      $("#messages").append('<li>' + data.message + " " + data.id + '</li>');
+  let storedMessages = "4455";
+  $.ajax({
+   url: "/getstoredMessages",
+   type: "GET",
+   data: {'id':0},
+   success: function(data2){
+     storedMessages = data2.test;
+     console.log(data2.test);
+     $("#messages").append(storedMessages);
+   } ,
+   dataType: "json"
+  });
+
 });
 
 //Get message from server.
@@ -18,13 +40,16 @@ if(data.type == "Text") {
     '<div class="postBlock">' +
     '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+
     '<div>'+
-    "<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
+    "<button type=button id ="+ messageid+ "class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
-    "<div class="+ "content"+"> " +"<hr>"
-    +"<p>Lorem ipsum...</p>" +"<hr>"
-    +"</div>"
-    +"</div>"
-    + "</div>"
+        "<div id =" + "d"+ messageid + " class="+ "content"+"> " +"<hr>"
+        +"<ul id=" + "p"+ messageid + "></ul>" + "<br>"
+        +"<input id =" + "t" + messageid + " type="+ "text"+">"
+        +"<input id =" + "c"+ messageid + " type=button name=commentb" +
+        "value=PostComment onclick= " + "commentit("+  messageid + ")>" +"<br>"
+      +"</div>"
+      +"</div>"
+      +"</div>"
   );
 }
 else if(data.type == "Image") {
@@ -33,19 +58,38 @@ else if(data.type == "Image") {
     "<p class='imageUser'>" + data.user + "</p>" +
     "<img id='display' class='postli' style='background-color:'"+ data.color +";' src='" + "images/" + data.msg + "' height='150' width='150'>" +
     "<div>" +
-    "<button type=button class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
+    "<button type=button id ="+ messageid+ "class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
-    "<div class="+ "content"+"> " +"<hr>"
-    +"<p>Lorem ipsum...</p>" +"<hr>"
-    +"</div>"
-    +"</div>"
-    + "</div>"
+        "<div id =" + "d"+ messageid + " class="+ "content"+"> " +"<hr>"
+        +"<ul id=" + "p"+ messageid + "></ul>" + "<br>"
+        +"<input id =" + "t" + messageid + " type="+ "text"+">"
+        +"<input id =" + "c"+ messageid + " type=button name=commentb" +
+        "value=PostComment onclick= " + "commentit("+  messageid + ")>" +"<br>"
+      +"</div>"
+      +"</div>"
+      +"</div>"
   );
 }
 
 collapseIt();
-
+$.ajax({
+    url: "/getmessageid",
+    type: "GET",
+    data: {'id':0},
+    success: function(data){
+      messageid = data;
+     } ,
+     dataType: "json"
+   });
 });
+
+
+socket.on('updateComments',(data) =>
+{
+  $("#"+"p"+data.messageID).append("<p> "+ data.user + " " + data.text +  " <p>");
+});
+
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -53,6 +97,7 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+
 }
 /*
 function doit() {
@@ -79,11 +124,17 @@ function doit() {
       return false;
 }
 */
+
+
+
 function uploadSuccess(data) {
   let type = $("input:radio[name='type']:checked").val();
   let user = $('#tempUser').val();
   let pw = $('#password').val();
   let msg = "";
+
+
+  let bodyMSG = ''
   let color = getRandomColor()
   if (data.error)
   {
@@ -102,17 +153,56 @@ function uploadSuccess(data) {
       else {
         if (type == "Text") {
           msg = $('#postT').val();
-        }
+
+          bodyMSG = $('#postC').text();
+          console.log(bodyMSG);
+
         else if (type == "Image") {
           msg = data.filename2;
         }
 
+
         socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color});
+        $.ajax({
+          url: "/storeMessage",
+          type: "POST",
+          data: {message:msg,id:messageid,user:user,type:type,color:color},
+          success: function(data){
+
+          } ,
+          dataType: "json"
+        });
+        socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color,'bodyMSG':bodyMSG});
       }
     } ,
     dataType: "json"
   });
 }
+
+function commentit(id){
+let text = $("#"+"t"+id).val();
+let user =  $('#tempUser').val();
+let pw = $('#password').val();
+if(text != ""){
+  $.ajax({
+    url: "/check",
+    type: "GET",
+    data: {username:user,password:pw},
+    success: function(data){
+      if (data.error){
+        alert(data.message);
+      }
+      else {
+        socket.emit('updateComments', {'text': text,'messageID':id,'user': user});
+      }
+    } ,
+    dataType: "json"
+  });
+}
+
+else
+  alert("you need a message");
+
 
 function collapseIt(){
 var coll = document.getElementsByClassName("collapsible");
