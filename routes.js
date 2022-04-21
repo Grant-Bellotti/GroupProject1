@@ -40,7 +40,7 @@ let messageID = 1;
 let filename2;
 /////Dummy Account for tests//////
 {
-let obj = new Data('abc','abc',-1,'abc');
+let obj = new Data('abc','abc',-1,'empty.webp');
 let val = db.postData(obj);
 }
 //////////////////////////////////
