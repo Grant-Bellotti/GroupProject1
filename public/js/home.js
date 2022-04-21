@@ -88,6 +88,21 @@ socket.on('updateComments',(data) =>
   $("#"+"p"+data.messageID).append("<p> "+ data.user + " " + data.text +  " <p>");
 });
 
+function changeView() {
+  if ($("input:radio[name='type']:checked").val() == "Text") {
+    //console.log("hiii1");
+    document.getElementById("postC").style.visibility = "visible";
+    document.getElementById("uploader").style.visibility = "hidden";
+    document.getElementById("uploader2").style.visibility = "hidden";
+  }
+  else if ($("input:radio[name='type']:checked").val() == "Image") {
+    console.log("hiii2");
+    document.getElementById("postC").style.visibility = "hidden";
+    document.getElementById("uploader").style.visibility = "visible";
+    document.getElementById("uploader2").style.visibility = "visible";
+  }
+}
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -207,5 +222,5 @@ $(document).ready(function(){
     });
     return false;
   });
-
+  changeView();
 });
