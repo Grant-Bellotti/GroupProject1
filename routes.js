@@ -68,6 +68,7 @@ router.post('/storeMessage', function(req, res){
   let type = req.body.type.trim();
   let color = req.body.color.trim();
   let comments = req.body.comments;
+  let realMessage = req.body.realMessage.trim();
  //let survey= req.body.survey.trim();
 
   if (message == "") {
@@ -75,7 +76,7 @@ router.post('/storeMessage', function(req, res){
       return;
   }
 
-  let obj = new MessageData(message,id,user,type,color,comments); //the -1 is temporary, is the yee rating
+  let obj = new MessageData(message,id,user,type,color,comments,realMessage); //the -1 is temporary, is the yee rating
   let val = messageDb.postData(obj);
   messageID++;
   console.log(val);
@@ -118,7 +119,7 @@ router.get('/getstoredMessages', function(req, res){
       if(type == "Text") {
         chat += (
         '<div class="postBlock">' +
-        '<p class="postli" style="background-color:'+ newMessage.color +';">' + newMessage.message + " " + newMessage.user + '<br>'+'<body>'+newMessage.message+'</body>'+'</p>'+
+        '<p class="postli" style="background-color:'+ newMessage.color +';">' + newMessage.message + " " + newMessage.user + '<br>'+'<body>'+newMessage.realMessage+'</body>'+'</p>'+
         '<div>' +
 
         "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+

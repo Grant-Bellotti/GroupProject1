@@ -181,7 +181,7 @@ function uploadSuccess(data) {
         $.ajax({
           url: "/storeMessage",
           type: "POST",
-          data: {message:msg,id:messageid,user:user,type:type,color:color,comments:""},
+          data: {message:msg,id:messageid,user:user,type:type,color:color,comments:"",realMessage:bodyMSG},
           success: function(data){
 
           } ,
@@ -208,18 +208,18 @@ if(text != ""){
         alert(data.message);
       }
       else {
+        $.ajax({
+              url: "/storeComment",
+              type: "POST",
+              data: {text: text,messageID:id,user:user},
+              success: function(data){
+               
+                
+              } ,
+              dataType: "json"
+            });
         socket.emit('updateComments', {'text': text,'messageID':id,'user': user});
       }
-    } ,
-    dataType: "json"
-  });
-  $.ajax({
-    url: "/storeComment",
-    type: "POST",
-    data: {text: text,messageID:id,user:user},
-    success: function(data){
-     
-      
     } ,
     dataType: "json"
   });
