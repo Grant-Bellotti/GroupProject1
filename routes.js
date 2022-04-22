@@ -40,7 +40,7 @@ let messageID = 1;
 let filename2;
 /////Dummy Account for tests//////
 {
-let obj = new Data('abc','abc',-1,'empty.webp');
+let obj = new Data('abc','empty.webp',-1,'abc');
 let val = db.postData(obj);
 }
 //////////////////////////////////
@@ -67,6 +67,7 @@ router.post('/storeMessage', function(req, res){
   let user = req.body.user.trim();
   let type = req.body.type.trim();
   let color = req.body.color.trim();
+  let comments = req.body.comments;
  //let survey= req.body.survey.trim();
 
   if (message == "") {
@@ -74,7 +75,7 @@ router.post('/storeMessage', function(req, res){
       return;
   }
 
-  let obj = new MessageData(message,id,user,type,color); //the -1 is temporary, is the yee rating
+  let obj = new MessageData(message,id,user,type,color,comments); //the -1 is temporary, is the yee rating
   let val = messageDb.postData(obj);
   messageID++;
   console.log(val);
@@ -84,7 +85,27 @@ router.post('/storeMessage', function(req, res){
     res.json({error:true});
 
 });
+router.post('/storeComment', function(req, res){
+  let message = req.body.text.trim();
+  let id = req.body.messageID.trim();
+  let user = req.body.user.trim();
+ //let survey= req.body.survey.trim();
 
+  if (message == "") {
+      res.json({error:true,message:"Bad Message"});
+      return;
+  }
+
+  let comment = " " + user + ": " + message;
+  let val = messageDb.postComment(id,comment);
+  messageID++;
+  console.log(val);
+  if (val)
+    res.json({error:false});
+  else
+    res.json({error:true});
+
+});
 router.get('/getstoredMessages', function(req, res){
   let chat = "";
   let newmessageId;
@@ -103,7 +124,7 @@ router.get('/getstoredMessages', function(req, res){
         "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+
 
         "<div id =" + "d"+ newMessage.id + " class="+ "content"+"> " +"<hr>"
-          +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
+          +"<ul id=" + "p"+ newMessage.id + ">"+newMessage.comments+  " </ul>" + "<br>"
           +"<input id =" + "t" + newMessage.id + " type="+ "text"+">"
           +"<input id =" + "c"+ newMessage.id + " type=button name=commentb" +
           "value=PostComment onclick= " + "commentit("+  newMessage.id + ")>" +"<br>"
@@ -123,7 +144,7 @@ router.get('/getstoredMessages', function(req, res){
       "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+
 
       "<div id =" + "d"+ newMessage + " class="+ "content"+"> " +"<hr>"
-        +"<ul id=" + "p"+ newMessage.id + "></ul>" + "<br>"
+        +"<ul id=" + "p"+ newMessage.id + ">"+newMessage.comments+  "</ul>" + "<br>"
         +"<input id =" + "t" + newMessage.id + " type="+ "text"+">"
         +"<input id =" + "c"+ newMessage.id + " type=button name=commentb" +
         "value=PostComment onclick= " + "commentit("+  newMessage.id + ")>" +"<br>"

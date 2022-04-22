@@ -41,7 +41,7 @@ if(data.msg == "")
 if(data.type == "Text") {
   $("#messages").append(
     '<div class="postBlock">' +
-    '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.msg+'</body>'+'</p>'+
+    '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.bodyMSG+'</body>'+'</p>'+
     '<div>'+
     "<button type=button id ="+ messageid+ " class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
@@ -89,7 +89,7 @@ $.ajax({
 
 socket.on('updateComments',(data) =>
 {
-  $("#"+"p"+data.messageID).append("<p> "+ data.user + " " + data.text +  " <p>");
+  $("#"+"p"+data.messageID).append("<p> "+ data.user + ": " + data.text +  " <p>");
 });
 
 function changeView() {
@@ -181,7 +181,7 @@ function uploadSuccess(data) {
         $.ajax({
           url: "/storeMessage",
           type: "POST",
-          data: {message:msg,id:messageid,user:user,type:type,color:color},
+          data: {message:msg,id:messageid,user:user,type:type,color:color,comments:""},
           success: function(data){
 
           } ,
@@ -210,6 +210,16 @@ if(text != ""){
       else {
         socket.emit('updateComments', {'text': text,'messageID':id,'user': user});
       }
+    } ,
+    dataType: "json"
+  });
+  $.ajax({
+    url: "/storeComment",
+    type: "POST",
+    data: {text: text,messageID:id,user:user},
+    success: function(data){
+     
+      
     } ,
     dataType: "json"
   });
