@@ -112,6 +112,7 @@ width: 150px;
   height:max-content;
   width: 75%;
   border-style: solid;
+  border-color: black;
 }
 .Login{
   text-align: right;

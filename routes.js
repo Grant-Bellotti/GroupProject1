@@ -41,7 +41,9 @@ let filename2;
 /////Dummy Account for tests//////
 {
 let obj = new Data('abc','empty.webp',-1,'abc');
-let val = db.postData(obj);
+db.postData(obj);
+let obj2 = new Data('Grant','empty.webp',-1,'abc');
+db.postData(obj2);
 }
 //////////////////////////////////
 router.post('/fileupload', function(req, res) {
@@ -119,7 +121,7 @@ router.get('/getstoredMessages', function(req, res){
       if(type == "Text") {
         chat += (
         '<div class="postBlock">' +
-        '<p class="postli" style="background-color:'+ newMessage.color +';">' + newMessage.message + " " + newMessage.user + '<br>'+'<body>'+newMessage.realMessage+'</body>'+'</p>'+
+        '<p class="postli" style="background-color:'+ newMessage.color +';">' + newMessage.message + ": " + newMessage.user + '<br>'+'<body>'+newMessage.realMessage+'</body>'+'</p>'+
         '<div>' +
 
         "<button type=button id='" + newMessage.id + "'class='collapsible' " + 'style="background-color:'+ newMessage.color + ';">' + 'Comments</button>'+

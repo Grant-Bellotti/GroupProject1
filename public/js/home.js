@@ -34,14 +34,12 @@ socket.on('welcome', function(data) {
 
 //Get message from server.
 socket.on('update', (data) => {
- let para = document.createElement("div");
-if(data.msg == "")
- return;
+  let para = document.createElement("div");
 
 if(data.type == "Text") {
   $("#messages").append(
     '<div class="postBlock">' +
-    '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + " " + data.user + '<br>'+'<body>'+data.bodyMSG+'</body>'+'</p>'+
+    '<p class="postli" style="background-color:'+ data.color +';">' + data.msg + ": " + data.user + '<br>'+'<body>'+data.bodyMSG+'</body>'+'</p>'+
     '<div>'+
     "<button type=button id ="+ messageid+ " class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
@@ -59,7 +57,7 @@ else if(data.type == "Image") {
   $("#messages").append(
     "<div class='postBlock'>" +
     "<p class='imageUser'>" + data.user + "</p>" +
-    "<img id='display' class='postli' style='background-color:'"+ data.color +";' src='" + "images/" + data.msg + "' height='150' width='150'>" +
+    "<img id='display' class='postli'" + 'style="background-color:'+ data.color +';" src="images/' + data.msg +'"height="150" width="150">' +
     "<div>" +
     "<button type=button id ="+ messageid+ " class='collapsible' " + 'style="background-color:'+ data.color + ';">' + 'Comments</button>'+
 
@@ -94,14 +92,14 @@ socket.on('updateComments',(data) =>
 
 function changeView() {
   if ($("input:radio[name='type']:checked").val() == "Text") {
-    //console.log("hiii1");
+    document.getElementById("postC2").style.visibility = "visible";
     document.getElementById("postC").style.visibility = "visible";
     document.getElementById("uploader").style.visibility = "hidden";
     document.getElementById("uploader2").style.visibility = "hidden";
   }
   else if ($("input:radio[name='type']:checked").val() == "Image") {
-    console.log("hiii2");
     document.getElementById("postC").style.visibility = "hidden";
+    document.getElementById("postC2").style.visibility = "hidden";
     document.getElementById("uploader").style.visibility = "visible";
     document.getElementById("uploader2").style.visibility = "visible";
   }
@@ -170,12 +168,26 @@ function uploadSuccess(data) {
       else {
         if (type == "Text") {
           msg = $('#postT').val();
+          bodyMSG = $('#postC').val();
 
-          bodyMSG = $('#postC').text();
-          console.log(bodyMSG);
+          if(msg == "") {
+            alert ("title is required");
+            return;
+          }
+          else if(bodyMSG == "") {
+            alert ("message is required");
+            return;
+          }
+
         }
         else if (type == "Image") {
           msg = data.filename2;
+
+          if(msg == "empty.webp") {
+            alert ("image is required");
+            return;
+          }
+
         }
 
         $.ajax({
@@ -188,6 +200,9 @@ function uploadSuccess(data) {
           dataType: "json"
         });
         socket.emit('update', {'type':type, 'msg': msg,'user':user,'color':color,'bodyMSG':bodyMSG});
+        $('#postT').val("");
+        $('#postC').val("");
+        $('#uploader').val("");
       }
     } ,
     dataType: "json"
@@ -213,12 +228,13 @@ if(text != ""){
               type: "POST",
               data: {text: text,messageID:id,user:user},
               success: function(data){
-               
-                
+
+
               } ,
               dataType: "json"
             });
         socket.emit('updateComments', {'text': text,'messageID':id,'user': user});
+        $("#"+"t"+id).val("");
       }
     } ,
     dataType: "json"
